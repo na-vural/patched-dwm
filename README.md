@@ -19,9 +19,10 @@ dwm-savefloats-20181212-b69c870.diff
 dwm-scratchpad-6.2.diff
 dwm-swaptags-6.2.diff
 dwm-zoomswap-6.2.diff
+
+And also dwm-keypressrelease-6.0.diff was applied but not from
+the its original diff file. So its file is not in the applied patches dir.
 ```
 
-Clone original dwm files
-and apply all of these patches with the dwm-all-in-one-6.2.diff patch
-or clone this repo.
+Clone original dwm files and apply all of these patches with the dwm-all-in-one-6.2.diff patch or clone this repo.
 
