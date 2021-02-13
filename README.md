@@ -1,6 +1,6 @@
 ## Applied patches
 
----
+```
 dwm-6.2-urg-border.diff
 dwm-actualfullscreen-20191112-cb3f58a.diff
 dwm-attachaside-20180126-db22360.diff
@@ -19,7 +19,7 @@ dwm-savefloats-20181212-b69c870.diff
 dwm-scratchpad-6.2.diff
 dwm-swaptags-6.2.diff
 dwm-zoomswap-6.2.diff
----
+```
 
 Clone original dwm files
 and apply all of these patches with the dwm-all-in-one-6.2.diff patch
