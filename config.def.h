@@ -16,7 +16,7 @@ static const char col_urgborder[]   = "#ff0000";
 static const char *colors[][4]      = {
 	/*               fg         bg         border           float */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2,       col_gray2 },
-	[SchemeSel] =  { col_gray4, col_cyan,  col_gray2,       col_gray2 },
+	[SchemeSel] =  { col_gray4, col_cyan,  col_gray2,       col_cyan },
 	[SchemeUrg]  = { col_gray4, col_cyan,  col_urgborder,   col_urgborder },
 };
 
@@ -48,8 +48,6 @@ static const Layout layouts[] = {
 	{ "===",      bstackhoriz },
 	{ NULL,       NULL },
 };
-
-void swaptags(const Arg *arg);
 
 /* key definitions */
 #define MODKEY Mod1Mask
@@ -138,3 +136,4 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+

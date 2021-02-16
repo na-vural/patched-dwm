@@ -1,0 +1,14 @@
+diff --git a/dwm.c b/dwm.c
+index 664c527..3308524 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -768,7 +768,9 @@ enternotify(XEvent *e)
+ 		selmon = m;
+ 	} else if (!c || c == selmon->sel)
+ 		return;
++	/* To disable focus to client with mouse movement.
+ 	focus(c);
++	*/
+ }
+ 
+ void

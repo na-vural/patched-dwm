@@ -1,5 +1,6 @@
 ## Applied patches
 
+### Patches from suckless.org
 ```
 dwm-6.2-urg-border.diff
 dwm-actualfullscreen-20191112-cb3f58a.diff
@@ -17,12 +18,21 @@ dwm-noborderfloatingfix-6.2.diff
 dwm-pertag-20200914-61bb8b2.diff
 dwm-savefloats-20181212-b69c870.diff
 dwm-scratchpad-6.2.diff
-dwm-swaptags-6.2.diff
 dwm-zoomswap-6.2.diff
-
-And also dwm-keypressrelease-6.0.diff was applied but not from
-the its original diff file. So its file is not in the applied patches dir.
 ```
+And `dwm-keypressrelease-6.0.diff` was applied by hand.
 
-Clone original dwm files and apply all of these patches with the dwm-all-in-one-6.2.diff patch or clone this repo.
+### Patches from me
+```
+dwm-not-draw-vacant-tags-6.2.diff
+dwm-not-focus-to-client-with-mouse-6.2.diff
+dwm-swaptags-compt-with-pertag-6.2.diff
+```
+The code included by draw vacant tags patch taken from [LukeSmithxyz/dwm](https://github.com/LukeSmithxyz/dwm).
+The swaptags patch that is compatible with pertag patch is created from [dwm-swaptags-6.2.diff](https://dwm.suckless.org/patches/swaptags/dwm-swaptags-6.2.diff).
+
+## Installation
+Clone original dwm files and apply all of these patches with the `dwm-all-in-one-6.2.diff` patch or clone this repo.
+
+
 

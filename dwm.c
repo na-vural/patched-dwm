@@ -229,6 +229,7 @@ static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 static void spawn(const Arg *arg);
+static void swaptags(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
@@ -803,6 +804,10 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
+		/* to not draw vacant tags, this if block was taken from LukeSmithxyz/dwm */
+		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+			continue;
+
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
@@ -856,7 +861,9 @@ enternotify(XEvent *e)
 		selmon = m;
 	} else if (!c || c == selmon->sel)
 		return;
+	/* To disable focus to client with mouse movement.
 	focus(c);
+	*/
 }
 
 void
@@ -2676,7 +2683,7 @@ void
 swaptags(const Arg *arg)
 {
 	unsigned int newtag = arg->ui & TAGMASK;
-	unsigned int curtag = selmon->tagset[selmon->seltags];
+	unsigned int curtag = selmon->pertag->curtag; /* for pertag compat. */
 
 	if (newtag == curtag || !curtag || (curtag & (curtag-1)))
 		return;
@@ -2687,10 +2694,41 @@ swaptags(const Arg *arg)
 
 		if(!c->tags) c->tags = newtag;
 	}
+	/**/
+	/* to make compatible with pertag patch. */
+	int tmp_nmaster;
+	float tmp_mfact;
+	unsigned int tmp_sellt;
+	const Layout *tmp_ltidx[2];
+	int tmp_showbar;
+
+	tmp_nmaster = selmon->pertag->nmasters[curtag];
+	tmp_mfact = selmon->pertag->mfacts[curtag];
+	tmp_sellt = selmon->pertag->sellts[curtag];
+	tmp_ltidx[selmon->sellt] = selmon->pertag->ltidxs[curtag][selmon->sellt];
+	tmp_ltidx[selmon->sellt^1] = selmon->pertag->ltidxs[curtag][selmon->sellt^1];
+	tmp_showbar = selmon->pertag->showbars[curtag];
+
+	selmon->pertag->nmasters[curtag] = selmon->pertag->nmasters[newtag];
+	selmon->pertag->mfacts[curtag] = selmon->pertag->mfacts[newtag];
+	selmon->pertag->sellts[curtag] = selmon->pertag->sellts[newtag];
+	selmon->pertag->ltidxs[curtag][selmon->sellt] = selmon->pertag->ltidxs[newtag][selmon->sellt];
+	selmon->pertag->ltidxs[curtag][selmon->sellt^1] = selmon->pertag->ltidxs[newtag][selmon->sellt^1];
+	selmon->pertag->showbars[curtag] = selmon->pertag->showbars[newtag];
+
+	selmon->pertag->nmasters[newtag] = tmp_nmaster;
+	selmon->pertag->mfacts[newtag] = tmp_mfact;
+	selmon->pertag->sellts[newtag] = tmp_sellt;
+	selmon->pertag->ltidxs[newtag][selmon->sellt] = tmp_ltidx[selmon->sellt];
+	selmon->pertag->ltidxs[newtag][selmon->sellt^1] = tmp_ltidx[selmon->sellt^1];
+	selmon->pertag->showbars[newtag] = tmp_showbar;
+
+	selmon->pertag->prevtag = curtag;
+	selmon->pertag->curtag = newtag;
+	/**/
 
 	selmon->tagset[selmon->seltags] = newtag;
 
 	focus(NULL);
 	arrange(selmon);
 }
-
