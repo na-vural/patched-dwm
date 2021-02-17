@@ -26,10 +26,8 @@ And `dwm-keypressrelease-6.0.diff` was applied by hand.
 ```
 dwm-not-draw-vacant-tags-6.2.diff
 dwm-not-focus-to-client-with-mouse-6.2.diff
-dwm-swaptags-compt-with-pertag-6.2.diff
 ```
 The code included by draw vacant tags patch taken from [LukeSmithxyz/dwm](https://github.com/LukeSmithxyz/dwm).
-The swaptags patch that is compatible with pertag patch is created from [dwm-swaptags-6.2.diff](https://dwm.suckless.org/patches/swaptags/dwm-swaptags-6.2.diff).
 
 ## Installation
 Clone original dwm files and apply all of these patches with the `dwm-all-in-one-6.2.diff` patch or clone this repo.

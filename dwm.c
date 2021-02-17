@@ -229,7 +229,6 @@ static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 static void spawn(const Arg *arg);
-static void swaptags(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
@@ -2677,58 +2676,4 @@ inplacerotate(const Arg *arg)
 	}
 	arrange(selmon);
 	focus(c);
-}
-
-void
-swaptags(const Arg *arg)
-{
-	unsigned int newtag = arg->ui & TAGMASK;
-	unsigned int curtag = selmon->pertag->curtag; /* for pertag compat. */
-
-	if (newtag == curtag || !curtag || (curtag & (curtag-1)))
-		return;
-
-	for (Client *c = selmon->clients; c != NULL; c = c->next) {
-		if((c->tags & newtag) || (c->tags & curtag))
-			c->tags ^= curtag ^ newtag;
-
-		if(!c->tags) c->tags = newtag;
-	}
-	/**/
-	/* to make compatible with pertag patch. */
-	int tmp_nmaster;
-	float tmp_mfact;
-	unsigned int tmp_sellt;
-	const Layout *tmp_ltidx[2];
-	int tmp_showbar;
-
-	tmp_nmaster = selmon->pertag->nmasters[curtag];
-	tmp_mfact = selmon->pertag->mfacts[curtag];
-	tmp_sellt = selmon->pertag->sellts[curtag];
-	tmp_ltidx[selmon->sellt] = selmon->pertag->ltidxs[curtag][selmon->sellt];
-	tmp_ltidx[selmon->sellt^1] = selmon->pertag->ltidxs[curtag][selmon->sellt^1];
-	tmp_showbar = selmon->pertag->showbars[curtag];
-
-	selmon->pertag->nmasters[curtag] = selmon->pertag->nmasters[newtag];
-	selmon->pertag->mfacts[curtag] = selmon->pertag->mfacts[newtag];
-	selmon->pertag->sellts[curtag] = selmon->pertag->sellts[newtag];
-	selmon->pertag->ltidxs[curtag][selmon->sellt] = selmon->pertag->ltidxs[newtag][selmon->sellt];
-	selmon->pertag->ltidxs[curtag][selmon->sellt^1] = selmon->pertag->ltidxs[newtag][selmon->sellt^1];
-	selmon->pertag->showbars[curtag] = selmon->pertag->showbars[newtag];
-
-	selmon->pertag->nmasters[newtag] = tmp_nmaster;
-	selmon->pertag->mfacts[newtag] = tmp_mfact;
-	selmon->pertag->sellts[newtag] = tmp_sellt;
-	selmon->pertag->ltidxs[newtag][selmon->sellt] = tmp_ltidx[selmon->sellt];
-	selmon->pertag->ltidxs[newtag][selmon->sellt^1] = tmp_ltidx[selmon->sellt^1];
-	selmon->pertag->showbars[newtag] = tmp_showbar;
-
-	selmon->pertag->prevtag = curtag;
-	selmon->pertag->curtag = newtag;
-	/**/
-
-	selmon->tagset[selmon->seltags] = newtag;
-
-	focus(NULL);
-	arrange(selmon);
 }
