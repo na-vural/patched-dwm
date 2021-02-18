@@ -7,7 +7,7 @@ This repo created to hold and share the patched version of [dwm](https://dwm.suc
 ```
 dwm-6.2-urg-border.diff
 dwm-actualfullscreen-20191112-cb3f58a.diff
-dwm-attachaside-20180126-db22360.diff
+dwm-attachbelow-toggleable-6.2.diff
 dwm-cfacts-20200913-61bb8b2.diff
 dwm-cfacts_bottomstack-6.2.diff
 dwm-cyclelayouts-20180524-6.2.diff
@@ -33,7 +33,7 @@ And `dwm-killunsel-ceac8c91ff.diff` was made compatible with systray patch.
 dwm-not-draw-vacant-tags-6.2.diff
 dwm-not-focus-to-client-with-mouse-6.2.diff
 ```
-The code included by draw vacant tags patch taken from [LukeSmithxyz/dwm](https://github.com/LukeSmithxyz/dwm).
+The code included by `dwm-not-draw-vacant-tags-6.2.diff` taken from [LukeSmithxyz/dwm](https://github.com/LukeSmithxyz/dwm).
 
 ## Installation
-Just clone this repo and compile with `make install` (`sudo` may be needed).
+Just clone this repo and compile.
