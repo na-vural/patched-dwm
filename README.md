@@ -12,6 +12,7 @@ dwm-cfacts-20200913-61bb8b2.diff
 dwm-cfacts_bottomstack-6.2.diff
 dwm-cyclelayouts-20180524-6.2.diff
 dwm-decorhints-6.2.diff
+dwm-extrabar-6.2.diff
 dwm-float-border-color-6.2.diff
 dwm-focusmaster-20200717-bb2e722.diff
 dwm-goback-20201227-61bb8b2.diff
@@ -27,6 +28,7 @@ dwm-zoomswap-6.2.diff
 ```
 And `dwm-keypressrelease-6.0.diff` was applied by hand and made compatible with other patches.
 And `dwm-killunsel-ceac8c91ff.diff` was made compatible with systray patch.
+And `dwm-extrabar-6.2.diff` was applied and made compatible with systray and pertag patches.
 
 ### Patches from me
 ```
@@ -36,4 +38,4 @@ dwm-not-focus-to-client-with-mouse-6.2.diff
 The code included by `dwm-not-draw-vacant-tags-6.2.diff` taken from [LukeSmithxyz/dwm](https://github.com/LukeSmithxyz/dwm).
 
 ## Installation
-Just clone this repo and compile.
+Clone this repo and compile **OR** install `dwm-all-in-one-6.2.diff` and apply it to original/your dwm files.
