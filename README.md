@@ -26,9 +26,9 @@ dwm-scratchpad-6.2.diff
 dwm-systray-20200914-61bb8b2.diff
 dwm-zoomswap-6.2.diff
 ```
-And `dwm-keypressrelease-6.0.diff` was applied by hand and made compatible with other patches.
-And `dwm-killunsel-ceac8c91ff.diff` was made compatible with systray patch.
-And `dwm-extrabar-6.2.diff` was applied and made compatible with systray and pertag patches.
+- `dwm-keypressrelease-6.0.diff` was applied by hand and made compatible with other patches.
+- `dwm-killunsel-ceac8c91ff.diff` was made compatible with systray patch.
+- `dwm-extrabar-6.2.diff` was applied and made compatible with systray and pertag patches.
 
 ### Patches from me
 ```
