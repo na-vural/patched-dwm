@@ -147,7 +147,7 @@ struct Monitor {
 	int nmaster;
 	int num;
 	int by;               /* bar geometry */
-	int eby;	      /* extra bar geometry */
+	int eby;              /* extra bar geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
 	unsigned int seltags;
@@ -944,7 +944,14 @@ drawbar(Monitor *m)
 
 	if (m == selmon) { /* extra status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		drw_text(drw, 0, 0, mons->ww, bh, 0, estext, 0);
+		/* clear default bar draw buffer by drawing a blank rectangle */
+		drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
+		if (extrabarright) {
+			sw = TEXTW(estext) - lrpad + 2; /* 2px right padding */
+			drw_text(drw, m->ww - sw, 0, sw, bh, 0, estext, 0);
+		} else {
+			drw_text(drw, 0, 0, mons->ww, bh, 0, estext, 0);
+		}
 		drw_map(drw, m->extrabarwin, 0, 0, m->ww, bh);
 	}
 }
