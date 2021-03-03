@@ -83,7 +83,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeUrg, StatusNorm, StatusWarn, StatusUrg }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
@@ -892,6 +892,10 @@ drawbar(Monitor *m)
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
+    char *ts = stext;
+    char *tp = stext;
+    int tx = 0;
+    char ctmp;
 	Client *c;
 
 	if(showsystray && m == systraytomon(m))
@@ -901,7 +905,17 @@ drawbar(Monitor *m)
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
+		while (1) {
+			if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
+			ctmp = *ts;
+			*ts = '\0';
+			drw_text(drw, m->ww - tw + tx - stw, 0, tw - tx, bh, lrpad / 2 - 2, tp, 0);
+			tx += TEXTW(tp) - lrpad / 2 + 2;
+			if (ctmp == '\0') { break; }
+			drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
+			*ts = ctmp;
+			tp = ++ts;
+		}
 	}
 
 	resizebarwin(m);
@@ -942,15 +956,41 @@ drawbar(Monitor *m)
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww - stw, bh);
 
+    ts = estext;
+    tp = estext;
+    tx = 0;
+    ctmp = '\0';
+
 	if (m == selmon) { /* extra status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		/* clear default bar draw buffer by drawing a blank rectangle */
 		drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
-		if (extrabarright) {
-			sw = TEXTW(estext) - lrpad + 2; /* 2px right padding */
-			drw_text(drw, m->ww - sw, 0, sw, bh, 0, estext, 0);
+		if (!extrabarright) {
+			if ((unsigned int)*ts <= LENGTH(colors)) { tx = - lrpad / 2 - 2; }
+			while (1) {
+				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
+				ctmp = *ts;
+				*ts = '\0';
+				drw_text(drw, tx, 0, mons->ww - tx, bh, lrpad / 2 - 2, tp, 0);
+				tx += TEXTW(tp) - lrpad / 2 + 2;
+				if (ctmp == '\0') { break; }
+				drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
+				*ts = ctmp;
+				tp = ++ts;
+			}
 		} else {
-			drw_text(drw, 0, 0, mons->ww, bh, 0, estext, 0);
+			sw = TEXTW(estext); /* 2px right padding */
+			while (1) {
+				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
+				ctmp = *ts;
+				*ts = '\0';
+				drw_text(drw, m->ww - sw + tx, 0, sw - tx, bh, lrpad / 2 - 2, tp, 0);
+				tx += TEXTW(tp) - lrpad / 2 + 2;
+				if (ctmp == '\0') { break; }
+				drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
+				*ts = ctmp;
+				tp = ++ts;
+			}
 		}
 		drw_map(drw, m->extrabarwin, 0, 0, m->ww, bh);
 	}

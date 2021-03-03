@@ -18,12 +18,19 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const char col_black[]       = "#000000";
+static const char col_red[]         = "#ff0000";
+static const char col_yellow[]      = "#ffff00";
+static const char col_white[]       = "#ffffff";
 static const char col_urgborder[]   = "#ff0000";
 static const char *colors[][4]      = {
 	/*               fg         bg         border           float */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2,       col_gray2 },
 	[SchemeSel] =  { col_gray4, col_cyan,  col_gray2,       col_cyan },
 	[SchemeUrg]  = { col_gray4, col_cyan,  col_urgborder,   col_urgborder },
+	[StatusNorm] = { col_gray3, col_gray1, col_gray2,		NULL },
+	[StatusWarn] = { col_black, col_yellow,col_red,			NULL },
+	[StatusUrg]  = { col_white, col_red,   col_red,         NULL },
 };
 
 /* tagging */
