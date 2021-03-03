@@ -895,6 +895,7 @@ drawbar(Monitor *m)
     char *ts = stext;
     char *tp = stext;
     int tx = 0;
+	short schar_count = 0;
     char ctmp;
 	Client *c;
 
@@ -904,13 +905,14 @@ drawbar(Monitor *m)
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
+		for (int i = 0 ; stext[i] != '\0' ; i++) { if((unsigned int)stext[i] <= LENGTH(colors)) schar_count++; } /*Eliminate the chars for colors.*/
+		tw = TEXTW((stext + schar_count)) - lrpad;
 		while (1) {
 			if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 			ctmp = *ts;
 			*ts = '\0';
-			drw_text(drw, m->ww - tw + tx - stw, 0, tw - tx, bh, lrpad / 2 - 2, tp, 0);
-			tx += TEXTW(tp) - lrpad / 2 + 2;
+			drw_text(drw, m->ww - tw + tx - stw, 0, tw - tx, bh, 0, tp, 0);
+			tx += TEXTW(tp) - lrpad;
 			if (ctmp == '\0') { break; }
 			drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
 			*ts = ctmp;
@@ -958,34 +960,34 @@ drawbar(Monitor *m)
 
     ts = estext;
     tp = estext;
-    tx = 0;
+	tx = 0;
+	schar_count = 0;
     ctmp = '\0';
 
 	if (m == selmon) { /* extra status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		/* clear default bar draw buffer by drawing a blank rectangle */
 		drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
-		if (!extrabarright) {
-			if ((unsigned int)*ts <= LENGTH(colors)) { tx = - lrpad / 2 - 2; }
+		if (extrabarright) {
 			while (1) {
 				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 				ctmp = *ts;
 				*ts = '\0';
-				drw_text(drw, tx, 0, mons->ww - tx, bh, lrpad / 2 - 2, tp, 0);
-				tx += TEXTW(tp) - lrpad / 2 + 2;
+				drw_text(drw, tx, 0, mons->ww - tx, bh, 0, tp, 0);
+				tx += TEXTW(tp) - lrpad;
 				if (ctmp == '\0') { break; }
 				drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
 				*ts = ctmp;
 				tp = ++ts;
 			}
 		} else {
-			sw = TEXTW(estext); /* 2px right padding */
-			while (1) {
+			for (int i = 0 ; estext[i] != '\0' ; i++) { if((unsigned int)estext[i] <= LENGTH(colors)) schar_count++; } /*Eliminate the chars for colors.*/
+			sw = TEXTW((estext + schar_count)) - lrpad;			while (1) {
 				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 				ctmp = *ts;
 				*ts = '\0';
-				drw_text(drw, m->ww - sw + tx, 0, sw - tx, bh, lrpad / 2 - 2, tp, 0);
-				tx += TEXTW(tp) - lrpad / 2 + 2;
+				drw_text(drw, m->ww - sw + tx, 0, sw - tx, bh, 0, tp, 0);
+				tx += TEXTW(tp) - lrpad;
 				if (ctmp == '\0') { break; }
 				drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
 				*ts = ctmp;
