@@ -968,7 +968,7 @@ drawbar(Monitor *m)
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		/* clear default bar draw buffer by drawing a blank rectangle */
 		drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
-		if (extrabarright) {
+		if (!extrabarright) {
 			while (1) {
 				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 				ctmp = *ts;
