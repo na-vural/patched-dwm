@@ -906,7 +906,7 @@ drawbar(Monitor *m)
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		for (int i = 0 ; stext[i] != '\0' ; i++) { if((unsigned int)stext[i] <= LENGTH(colors)) schar_count++; } /*Eliminate the chars for colors.*/
-		tw = TEXTW((stext + schar_count)) - lrpad;
+		tw = TEXTW((stext + schar_count)) - lrpad - schar_count;
 		while (1) {
 			if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 			ctmp = *ts;
@@ -928,10 +928,6 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
-		/* to not draw vacant tags, this if block was taken from LukeSmithxyz/dwm */
-		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
-			continue;
-
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
@@ -982,7 +978,8 @@ drawbar(Monitor *m)
 			}
 		} else {
 			for (int i = 0 ; estext[i] != '\0' ; i++) { if((unsigned int)estext[i] <= LENGTH(colors)) schar_count++; } /*Eliminate the chars for colors.*/
-			sw = TEXTW((estext + schar_count)) - lrpad;			while (1) {
+			sw = TEXTW((estext + schar_count)) - lrpad - schar_count;
+			while (1) {
 				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 				ctmp = *ts;
 				*ts = '\0';

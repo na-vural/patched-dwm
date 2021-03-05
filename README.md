@@ -34,10 +34,8 @@ dwm-zoomswap-6.2.diff
 
 ### Patches from me
 ```
-dwm-not-draw-vacant-tags-6.2.diff
 dwm-not-focus-to-client-with-mouse-6.2.diff
 ```
-The code included by `dwm-not-draw-vacant-tags-6.2.diff` taken from [LukeSmithxyz/dwm](https://github.com/LukeSmithxyz/dwm).
 
 ## Installation
 Clone this repo and compile **OR** install `dwm-all-in-one-6.2.diff` and apply it to original/your dwm files.
