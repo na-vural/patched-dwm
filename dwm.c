@@ -909,9 +909,8 @@ drawbar(Monitor *m)
 	unsigned int i, occ = 0, urg = 0;
 	char *ts = stext;
 	char *tp = stext;
-	int tx = 0;
-	short schar_count = 0;
 	char ctmp;
+	int tx = 0;
 	Client *c;
 
 	if(showsystray && m == systraytomon(m) && !systrayonleft)
@@ -920,10 +919,21 @@ drawbar(Monitor *m)
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		for (int i = 0 ; stext[i] != '\0' ; i++) { if((unsigned int)stext[i] <= LENGTH(colors)) schar_count++; } /*Eliminate the chars for colors.*/
-		tw = TEXTW((stext + schar_count)) - lrpad - schar_count;
+		tw = 0;
 		while (1) {
-			if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
+			if ((unsigned int)*ts > LENGTH(colors)) { ++ts; continue ; }
+			ctmp = *ts;
+			*ts = '\0';
+			tw += TEXTW(tp) - lrpad;
+			if (ctmp == '\0') break;
+			*ts = ctmp;
+			tp = ++ts;
+		}
+		tw += systrayspacing;
+		ts = stext;
+		tp = stext;
+		while (1) {
+			if ((unsigned int)*ts > LENGTH(colors)) { ++ts; continue ; }
 			ctmp = *ts;
 			*ts = '\0';
 			drw_text(drw, m->ww - tw + tx - stw, 0, tw - tx, bh, 0, tp, 0);
@@ -975,7 +985,6 @@ drawbar(Monitor *m)
     ts = estext;
     tp = estext;
 	tx = 0;
-	schar_count = 0;
     ctmp = '\0';
 
 	if (m == selmon) { /* extra status is only drawn on selected monitor */
@@ -984,7 +993,7 @@ drawbar(Monitor *m)
 		drw_rect(drw, 0, 0, m->ww, bh, 1, 1);
 		if (!extrabarright) {
 			while (1) {
-				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
+				if ((unsigned int)*ts > LENGTH(colors)) { ++ts; continue ; }
 				ctmp = *ts;
 				*ts = '\0';
 				drw_text(drw, tx, 0, mons->ww - tx, bh, 0, tp, 0);
@@ -995,10 +1004,20 @@ drawbar(Monitor *m)
 				tp = ++ts;
 			}
 		} else {
-			for (int i = 0 ; estext[i] != '\0' ; i++) { if((unsigned int)estext[i] <= LENGTH(colors)) schar_count++; } /*Eliminate the chars for colors.*/
-			sw = TEXTW((estext + schar_count)) - lrpad - schar_count;
+			sw = 0;
+			while (1) {
+				if ((unsigned int)*ts > LENGTH(colors)) { ++ts; continue ; }
+				ctmp = *ts;
+				*ts = '\0';
+				sw += TEXTW(tp) - lrpad;
+				if (ctmp == '\0') break;
+				*ts = ctmp;
+				tp = ++ts;
+			}
+			ts = estext;
+			tp = estext;
             while (1) {
-				if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
+				if ((unsigned int)*ts > LENGTH(colors)) { ++ts; continue ; }
 				ctmp = *ts;
 				*ts = '\0';
 				drw_text(drw, m->ww - sw + tx, 0, sw - tx, bh, 0, tp, 0);
