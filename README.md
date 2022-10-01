@@ -24,7 +24,7 @@ Some of the patches were made compatible with others and applied by hand.
 -   [dwm-quitprompt-20220718-6613d9f.diff](https://dwm.suckless.org/patches/quitprompt/) - I changed color to darkred, font size to 18.
 -   [dwm-savefloats-20181212-b69c870.diff](https://dwm.suckless.org/patches/save_floats/)
 -   [dwm-scratchpad-6.2.diff](https://dwm.suckless.org/patches/scratchpad/)
--	dwm-scrollontagbar-6.2.diff - Writed by me.
+-	dwm-scrollontagbar-6.2.diff - Written by me.
 -   [dwm-statuscolors-20220322-bece862.diff](https://dwm.suckless.org/patches/statuscolors/)
 -   [dwm-systray-6.3.diff](https://dwm.suckless.org/patches/systray/)
 -   [dwm-tagothermonitor-6.2.diff](https://dwm.suckless.org/patches/tagothermonitor/)
